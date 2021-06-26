@@ -14,7 +14,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/nationalparks")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class NationalParksController : Controller
@@ -89,7 +90,8 @@
             {
                 ModelState.AddModelError("", $"Something went wrong when saving {nationalPark.Name}");
             }
-            return CreatedAtRoute("GetNationalPark", new { id = nationalPark.Id}, nationalPark);
+            return CreatedAtRoute("GetNationalPark", new { version = HttpContext.GetRequestedApiVersion().ToString(), 
+                id = nationalPark.Id}, nationalPark);
         }
 
         [HttpPatch("{id:int}", Name = "UpdateNationalPark")]

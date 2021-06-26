@@ -14,7 +14,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    [Route("api/Trails")]
+    //[Route("api/Trails")]
+    [Route("api/v{version:apiVersion}/trials")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class TrialsController : Controller
@@ -66,27 +67,28 @@
             var trialDto = _mapper.Map<TrialDto>(trial);
             return Ok(trialDto);
         }
-        //Check--------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Get Trials in a park based on park id
-        ///// </summary>
-        ///// <param name="npId">ID of the park</param>
-        ///// <returns></returns>
-        //[HttpGet("{npId:int}", Name = "GetTrialsInPark")]
-        //[ProducesResponseType(200, Type = typeof(List<TrialDto>))]
-        //[ProducesResponseType(400)]
-        //[ProducesResponseType(404)]
-        //[ProducesDefaultResponseType]
-        //public IActionResult GetTrialsInPark(int npId)
-        //{
-        //    var trial = _trialRepo.GetTrialsInNationalPark(npId);
-        //    if (trial == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var trialDto = _mapper.Map<TrialDto>(trial);
-        //    return Ok(trialDto);
-        //}
+
+        /// <summary>
+        /// Get Trials in a park based on park id
+        /// </summary>
+        /// <param name="npId">ID of the park</param>
+        /// <returns></returns>
+        [HttpGet("[action]/{npId:int}")]
+        [ProducesResponseType(200, Type = typeof(List<TrialDto>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
+        public IActionResult GetTrialsInPark(int npId)
+        {
+            var trials = _trialRepo.GetTrialsInNationalPark(npId);
+            var trialsDto = new List<TrialDto>();
+            foreach (var trial in trials)
+            {
+                trialsDto.Add(_mapper.Map<TrialDto>(trial));
+            }
+
+            return Ok(trialsDto);
+        }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TrialDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +111,8 @@
             {
                 ModelState.AddModelError("", $"Something went wrong when saving {trial.Name}");
             }
-            return CreatedAtRoute("GetTrial", new { id = trial.Id}, trial);
+            return CreatedAtRoute("GetTrial", new { version=HttpContext.GetRequestedApiVersion().ToString(),
+                id = trial.Id}, trial);
         }
 
         [HttpPatch("{id:int}", Name = "UpdateTrial")]
