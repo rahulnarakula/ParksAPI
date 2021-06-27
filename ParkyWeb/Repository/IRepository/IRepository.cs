@@ -1,0 +1,16 @@
+﻿namespace ParkyWeb.Repository.IRepository
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    interface IRepository<T> where T:class
+    {
+        Task<T> GetAsync(string url, int id);
+        Task<IEnumerable<T>> GetAllAsync(string url);
+        Task<bool> CreateAsync(string url, T obj);
+        Task<bool> UpdateAsync(string url, T obj);
+        Task<bool> DeleteAsync(string url, int id);
+    }
+}
