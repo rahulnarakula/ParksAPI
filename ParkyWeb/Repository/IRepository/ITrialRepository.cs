@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    interface ITrialRepository : IRepository<Trial>
+    public interface ITrialRepository : IRepository<Trial>
     {
     }
 }

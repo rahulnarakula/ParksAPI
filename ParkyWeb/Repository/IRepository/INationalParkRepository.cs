@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    interface INationalParkRepository : IRepository<NationalPark>
+    public interface INationalParkRepository : IRepository<NationalPark>
     {
     }
 }
