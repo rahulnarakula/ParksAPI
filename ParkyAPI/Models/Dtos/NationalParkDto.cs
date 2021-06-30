@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace ParkyAPI.Models.Dtos
 {
-    //Steps 1. add-migration AddNationalParkToDb //This creates migration file
-    //2. update-database // Saves changes to Db
     public class NationalParkDto
     {
         public int Id { get; set; }

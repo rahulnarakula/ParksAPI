@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ParkyAPI.Models
 {
-    //Steps 1. add-migration AddNationalParkToDb //This creates migration file
-    //2. update-database // Saves changes to Db
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class NationalPark
+
     {
         [Key]
         public int Id { get; set; }
@@ -16,8 +16,9 @@ namespace ParkyAPI.Models
         public string Name { get; set; }
         [Required]
         public string State { get; set; }
-        public byte[] Picture { get; set; }
         public DateTime Created { get; set; }
+        public byte[] Picture { get; set; }
         public DateTime Established { get; set; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
